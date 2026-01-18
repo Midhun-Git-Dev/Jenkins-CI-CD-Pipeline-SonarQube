@@ -1,4 +1,4 @@
-🚀 Jenkins CI/CD Pipeline with SonarQube & Tomcat Deployment
+🚀 Jenkins CI/CD Pipeline with SonarQube & Tomcat Deployment.
 
 📌 Project Overview
 
