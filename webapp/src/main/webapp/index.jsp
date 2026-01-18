@@ -1,124 +1,207 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>DevOpsFlix</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>DevOpsFlix | CI/CD in Action</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
 
     <style>
-        body {
+        * {
             margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #000;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at top, #111 0%, #000 60%);
             color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        .header {
-            background: linear-gradient(to bottom, rgba(0,0,0,0.8), rgba(0,0,0,0.2)),
-                        url("https://assets.nflxext.com/ffe/siteui/vlv3/4f3f7f6a.jpg");
-            height: 100vh;
-            background-size: cover;
-            background-position: center;
-            padding: 20px 50px;
-        }
-
-        .nav {
+        /* ===== NAVBAR ===== */
+        header {
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 25px 60px;
         }
 
         .logo {
             font-size: 28px;
-            font-weight: bold;
-            color: red;
+            font-weight: 900;
+            color: #e50914;
+            letter-spacing: 1px;
         }
 
-        .signin {
-            background: red;
-            padding: 8px 16px;
-            border-radius: 4px;
+        .sign-in {
+            background: #e50914;
+            padding: 10px 22px;
+            border-radius: 6px;
             text-decoration: none;
-            color: white;
-            font-weight: bold;
+            color: #fff;
+            font-weight: 600;
+            transition: all 0.3s ease;
         }
 
-        .content {
-            max-width: 650px;
-            margin-top: 150px;
+        .sign-in:hover {
+            background: #ff1f2a;
+            transform: scale(1.05);
         }
 
-        .content h1 {
-            font-size: 50px;
-            margin-bottom: 20px;
-        }
-
-        .content h2 {
-            font-size: 26px;
-            font-weight: normal;
-            margin-bottom: 20px;
-        }
-
-        .content p {
-            font-size: 18px;
-        }
-
-        .email-box {
-            margin-top: 25px;
+        /* ===== HERO ===== */
+        .hero {
             display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 60px;
+        }
+
+        .hero-content {
+            max-width: 800px;
+        }
+
+        .hero h1 {
+            font-size: 64px;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 25px;
+        }
+
+        .hero h1 span {
+            color: #e50914;
+        }
+
+        .hero p {
+            font-size: 20px;
+            color: #ccc;
+            margin-bottom: 35px;
+            max-width: 650px;
+        }
+
+        .tags {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 45px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            padding: 8px 18px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.08);
+            font-size: 14px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        /* ===== EMAIL BOX ===== */
+        .email-box {
+            display: flex;
+            max-width: 550px;
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(12px);
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
         .email-box input {
             flex: 1;
-            padding: 15px;
+            padding: 18px;
             font-size: 16px;
             border: none;
+            outline: none;
+            background: transparent;
+            color: #fff;
+        }
+
+        .email-box input::placeholder {
+            color: #aaa;
         }
 
         .email-box button {
-            background: red;
-            color: white;
+            background: linear-gradient(135deg, #e50914, #ff2c2c);
             border: none;
-            padding: 15px 25px;
+            padding: 0 30px;
             font-size: 16px;
+            font-weight: 700;
+            color: #fff;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        footer {
-            text-align: center;
-            padding: 20px;
-            color: #aaa;
+        .email-box button:hover {
+            filter: brightness(1.1);
+            transform: translateX(2px);
+        }
+
+        /* ===== FOOTER TEXT ===== */
+        .footer-note {
+            margin-top: 30px;
             font-size: 14px;
+            color: #888;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            header {
+                padding: 20px 30px;
+            }
+
+            .hero {
+                padding: 80px 30px;
+            }
+
+            .hero h1 {
+                font-size: 42px;
+            }
         }
     </style>
 </head>
 
 <body>
 
-<div class="header">
-    <div class="nav">
-        <div class="logo">DevOpsFlix</div>
-        <a href="#" class="signin">Sign In</a>
-    </div>
+<header>
+    <div class="logo">DevOpsFlix</div>
+    <a href="login.jsp" class="sign-in">Sign In</a>
+</header>
 
-    <div class="content">
-        <h1>Unlimited Movies, DevOps & CI/CD</h1>
-        <h2>Build. Deploy. Automate. Repeat.</h2>
-        <h2>Builded By Mid-hxn07.</h2>
-        <p>Ready to see a real CI/CD pipeline in action?</p>
+<section class="hero">
+    <div class="hero-content">
 
-        <div class="email-box">
-            <input type="email" placeholder="Enter your email">
-            <button>Get Started</button>
+        <h1>
+            Unlimited <span>Deployments</span>,<br>
+            DevOps & CI/CD
+        </h1>
+
+        <p>
+            Build. Test. Deploy. Monitor.  
+            Experience a real-world CI/CD pipeline powered by Jenkins, Docker & Cloud.
+        </p>
+
+        <div class="tags">
+            <div class="tag">Jenkins</div>
+            <div class="tag">Docker</div>
+            <div class="tag">Linux</div>
+            <div class="tag">CI/CD</div>
+            <div class="tag">Cloud</div>
         </div>
-    </div>
-</div>
 
-<footer>
-    🚀 Deployed via GitHub → Jenkins → Maven → Tomcat  
-    <br>
-    © 2026 DevOps Project by Midhun
-</footer>
+        <form action="signup.jsp" method="post" class="email-box">
+            <input type="email" name="email" placeholder="Enter your email to start" required>
+            <button type="submit">Get Started</button>
+        </form>
+
+        <div class="footer-note">
+            Built by <strong>Mid-hxn07</strong> • Real DevOps. No Fake Pipelines 🚀
+        </div>
+
+    </div>
+</section>
 
 </body>
 </html>
