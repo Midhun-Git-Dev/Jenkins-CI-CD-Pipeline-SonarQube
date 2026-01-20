@@ -19,14 +19,14 @@ pipeline {
 
         stage('Build & Package') {
             steps {
-                sh 'mvn clean package'
+                bat 'mvn clean package'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    sh 'mvn sonar:sonar'
+                    bat 'mvn sonar:sonar'
                 }
             }
         }
@@ -34,7 +34,7 @@ pipeline {
         stage('Deploy to Staging') {
             steps {
                 echo 'Deploying to Staging Tomcat...'
-                sh '''
+                bat '''
                   cp target/*.war /opt/tomcat-staging/webapps/
                 '''
             }
@@ -44,7 +44,7 @@ pipeline {
             steps {
                 input message: 'Approve deployment to PRODUCTION?', ok: 'Deploy'
                 echo 'Deploying to Production Tomcat...'
-                sh '''
+                bat '''
                   cp target/*.war /opt/tomcat-prod/webapps/
                 '''
             }
