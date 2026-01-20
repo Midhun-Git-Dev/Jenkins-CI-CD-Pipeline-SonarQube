@@ -2,11 +2,11 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven3'   // Make sure Maven is configured in Jenkins Global Tools
+        maven 'maven3'   // must EXACTLY match Global Tool name
     }
 
     environment {
-        SONARQUBE_ENV = 'sonarqube-server'   // Name used in Jenkins config
+        SONARQUBE_ENV = 'sonarqube-server'   // Jenkins → Configure System → SonarQube name
     }
 
     stages {
@@ -26,7 +26,12 @@ pipeline {
         stage('SonarQube Analysis') {
             steps {
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
-                    bat 'mvn sonar:sonar'
+                    bat '''
+                    mvn clean verify ^
+                      org.sonarsource.scanner.maven:sonar-maven-plugin:3.10.0.2594:sonar ^
+                      -Dsonar.projectKey=maven-project ^
+                      -Dsonar.projectName=maven-project
+                    '''
                 }
             }
         }
@@ -35,7 +40,7 @@ pipeline {
             steps {
                 echo 'Deploying to Staging Tomcat...'
                 bat '''
-                  cp target/*.war /opt/tomcat-staging/webapps/
+                copy target\\*.war C:\\tomcat-staging\\webapps\\
                 '''
             }
         }
@@ -45,7 +50,7 @@ pipeline {
                 input message: 'Approve deployment to PRODUCTION?', ok: 'Deploy'
                 echo 'Deploying to Production Tomcat...'
                 bat '''
-                  cp target/*.war /opt/tomcat-prod/webapps/
+                copy target\\*.war C:\\tomcat-prod\\webapps\\
                 '''
             }
         }
@@ -60,4 +65,3 @@ pipeline {
         }
     }
 }
-
