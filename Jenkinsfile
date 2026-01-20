@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     tools {
-        maven 'maven3'   // EXACT name from Global Tool Configuration
+        maven 'maven3'
     }
 
     environment {
@@ -19,14 +19,12 @@ pipeline {
 
         stage('Build & Package') {
             steps {
-                echo 'Building Maven project...'
                 bat 'mvn clean package'
             }
         }
 
         stage('SonarQube Analysis') {
             steps {
-                echo 'Running SonarQube analysis...'
                 withSonarQubeEnv("${SONARQUBE_ENV}") {
                     bat '''
                     mvn -pl webapp -am verify ^
@@ -38,22 +36,13 @@ pipeline {
             }
         }
 
-        stage('Deploy to Staging') {
+        stage('Deploy to Tomcat') {
             steps {
-                echo 'Deploying to Staging Tomcat...'
+                echo 'Deploying WAR to Tomcat...'
                 bat '''
                 dir webapp\\target
-                copy /Y webapp\\target\\*.war C:\\tomcat-staging\\webapps\\
-                '''
-            }
-        }
-
-        stage('Deploy to Production') {
-            steps {
-                input message: 'Approve deployment to PRODUCTION?', ok: 'Deploy'
-                echo 'Deploying to Production Tomcat...'
-                bat '''
-                copy /Y webapp\\target\\*.war C:\\tomcat-prod\\webapps\\
+                copy /Y webapp\\target\\*.war ^
+                "C:\\Users\\user\\Downloads\\apache-tomcat-9.0.65-windows-x64\\Tomcat-9\\webapps\\"
                 '''
             }
         }
@@ -61,7 +50,7 @@ pipeline {
 
     post {
         success {
-            echo 'Pipeline completed successfully!'
+            echo 'CI/CD Pipeline completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
