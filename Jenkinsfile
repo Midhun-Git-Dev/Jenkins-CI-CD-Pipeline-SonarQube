@@ -51,9 +51,20 @@ pipeline {
     post {
         success {
             echo 'CI/CD Pipeline completed successfully!'
+            slackSend(
+                channel: '#jenkins-builds',
+                color: 'good',
+                message: "✅ SUCCESS: ${env.JOB_NAME} #${env.BUILD_NUMBER}\nSonarQube: PASSED\nURL: ${env.BUILD_URL}"
+            )
         }
+
         failure {
             echo 'Pipeline failed!'
+            slackSend(
+                channel: '#jenkins-builds',
+                color: 'danger',
+                message: "❌ FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}\nCheck logs: ${env.BUILD_URL}"
+            )
         }
     }
 }
